@@ -1,0 +1,15 @@
+<h1>Productos (SPA)</h1>
+<p>Estos son los productos</p>
+<table>
+	<thead>
+		<tr><th>#</th><th>descripcion</th><th>precio</th></tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="producto in listaProductos">
+			<td>{{ producto.id }}</td>
+			<td>{{ producto.descripcion }}</td>
+			<td>{{ producto.precio }}</td>
+		</tr>
+	</tbody>
+</table>
+<p>{{ mensaje }}</p>

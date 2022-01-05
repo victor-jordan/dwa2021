@@ -1,0 +1,28 @@
+<h1>Estudiantes (SPA)</h1>
+<div><button id="mostrar" ng-click="mostrarSecciones();">Ver {{ seccion }}</button></div>
+<div ng-show="!formulario">
+<p>{{ mensaje }}</p>
+<table>
+    <thead>
+        <tr><th>#</th><th>Nombre</th><th>Edad</th><th>Acciones</th></tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="estudiante in listaEstudiantes">
+            <td>{{ estudiante.StudentId }}</td>
+            <td>{{ estudiante.StudentName }}</td>
+            <td>{{ estudiante.StudentAge }}</td>
+            <td><button title="Editar" ng-click="asignarDatos(estudiante)"><i class="fa fa-pencil" aria-hidden="true"></i>
+</button><button title="Eliminar" ng-click="eliminarDatos(estudiante)"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
+        </tr>
+    </tbody>
+</table>
+</div>
+<div ng-show="formulario">
+    <form id="frmDatos" action="http://localhost:63174/api/Values" method="POST">
+        <caption>{{ accion }} ESTUDIANTE {{ Student.StudentId }}</caption>
+        <input type="hidden" name="StudentId" value="{{ Student.StudentId }}">
+        <label for="StudentName">Nombre:</label><input type="text" name="StudentName" ng-model="Student.StudentName">
+        <label for="StudentAge">Edad:</label><input type="number" name="StudentAge" ng-model="Student.StudentAge">
+        <input id="btnAceptar" type="submit" value="Registrar">
+    </form>
+</div>

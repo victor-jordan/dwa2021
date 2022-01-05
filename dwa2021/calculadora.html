@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Calculadora con HTML, CSS y JS</title>
+		<meta charset="UTF-8">
+		<title>Calculadora con HTML, CSS y JS</title>
+		<style>
+			* {
+				box-sizing: border-box;
+			}
+
+			body{
+				width: 90%;
+				background-color: whitesmoke;
+				margin: 0;
+				padding: 0;
+			}
+
+			h1{
+				color: darkblue;
+				text-align: center;
+				font-family: "Orbitron", sans-serif;
+			}
+
+			#caja{
+				width: 250px;
+				margin: 0 auto;
+				position: relative;
+				padding: 2%;
+				border: 1px solid black;
+				border-radius: 20px;
+				background: linear-gradient(black, gray, #3b3a30);
+			}
+
+			#resultado{
+				background: linear-gradient(white, gray);
+			}
+/* nos quedamos acá */
+			label#resultado_muestra{
+				font-family: "Orbitron", sans-serif;
+				font-weight: bolder;
+				font-size: 30px;
+				width: 100%;
+				text-align: right;
+				display: block;
+			}
+
+			input[type="text"]#insertar_datos{
+				font-family: "Orbitron", sans-serif;
+				font-weight: lighter;
+				font-size: 15px;
+				width: 100%;
+				text-align: right;
+				background: linear-gradient(#F0E68C, white);
+				outline: none;
+				border: 0;
+			}
+
+			hr.separador{
+				border: 0;
+				height: 1px;
+				margin: 1px;
+				background: black;
+			}
+
+			.fila{
+				display: block;
+				width: 100%;
+			}
+
+			.fila div{
+				display: inline-block;
+				width: 25%;
+			}
+
+			button{
+				font-family: "Courier New", "Courier", monospace;
+				font-weight: bold;
+				width: 100%;
+				color: white;
+				background: grey;
+				cursor: pointer;
+				text-decoration: none;
+				line-height: normal;
+			}
+
+			button.c{
+				background: red;
+			}
+
+			button.operacion{
+				background: darkblue;
+			}
+
+			button.especial{
+				background: lightgreen;	
+			}
+
+			button:hover{
+				background: white;
+				color: black;
+				text-decoration: none;
+			}
+		</style>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Orbitron">
+</head>
+<body onload="document.getElementById('insertar_datos').focus();">
+	<h1>Calculadora Simple</h1>
+	<div id="caja">
+		<div id="pantalla">
+			<hr class="separador">
+			<div id="resultado"><label id="resultado_muestra">0</label></div>
+			<div id="datos"><input type="text" id="insertar_datos"></div>
+		</div>
+		<hr class="separador">
+		<div id="botones">
+			<div class="fila"><div><button disabled>-</button></div><div><button disabled>-</button></div><div><button class="c">C</button></div><div><button class="operacion" onclick="agregar_digito('/');">/</button></div></div>
+			<div class="fila"><div><button onclick="agregar_digito('7');">7</button></div><div><button onclick="agregar_digito('8');">8</button></div><div><button onclick="agregar_digito('9');">9</button></div><div><button class="operacion" onclick="agregar_digito('*');">*</button></div></div>
+			<div class="fila"><div><button onclick="agregar_digito('4');">4</button></div><div><button onclick="agregar_digito('5');">5</button></div><div><button onclick="agregar_digito('6');">6</button></div><div><button class="operacion" onclick="agregar_digito('-');">-</button></div></div>
+			<div class="fila"><div><button onclick="agregar_digito('1');">1</button></div><div><button onclick="agregar_digito('2');">2</button></div><div><button onclick="agregar_digito('3');">3</button></div><div><button class="operacion" onclick="agregar_digito('+');">+</button></div></div>
+			<div class="fila"><div><button class="especial">%</button></div><div><button onclick="agregar_digito('0');">0</button></div><div><button class="especial">,</button></div><div><button class="operacion" onclick="calcular();">=</button></div></div>
+		</div>
+	</div>
+<script>
+	function agregar_digito(digito){
+		// alert("presionaste " + digito);
+		var resultado = document.getElementById('resultado_muestra').textContent;
+
+		if(resultado != '0' && (digito == '+' || digito == '-' || digito == '*' || digito == '/')){
+			document.getElementById('insertar_datos').value = resultado + digito;
+		} else {
+			document.getElementById('insertar_datos').value += digito;
+		}
+	}
+
+	function calcular(){
+		var expresion = document.getElementById('insertar_datos').value;
+		var r = eval(expresion);
+
+		document.getElementById('resultado_muestra').textContent = r;
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Encender/Apagar un foco con HTML, CSS, JS</title>
+		<style>
+			#circuito{
+				display: table;
+				margin: 0 auto;
+				align-content: center;
+				border: 1px solid black;
+				padding: 30px;
+			}
+			#socalo{
+				display: table-row;
+			}
+			#interruptores{
+				display: table-row;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>JAVASCRIPT nos permite encender o apagar un FOCO</h1>
+		<p>Ya que JS puede cambiar o manejar los atributos de los elementos HTML, podemos fácilmente emular el encendido/apagado de un bulbo o foco, incluso romperlo, veamos...</p>
+		<div id="circuito">
+			<div id="socalo">
+				<img id="foco" src="http://localhost/dwa2021/pic_bulbon.gif" onclick="romperFoco();">
+			</div>
+			<div id="interruptores">
+				<button id="encendido" onclick="encenderFoco();">Encender</button>
+				<button id="apagado" onclick="apagarFoco();">Apagar</button>
+			</div>
+		</div>
+		<script type="text/javascript">
+			// Capturamos los estados del foco si está encendido, apagado o roto; en banderas.
+			var foco_roto = false;
+			var foco_encendido = true;
+
+			function encenderFoco(){
+				if(!foco_encendido){
+					foco_encendido=true;
+					document.getElementById("foco").src = "http://localhost/dwa2021/pic_bulbon.gif";
+				} else {
+					alert("¡El foco ya está encendido!");
+				}
+			}
+
+			function apagarFoco(){
+				if(foco_encendido){
+					foco_encendido=false;
+					document.getElementById("foco").src = "http://localhost/dwa2021/pic_bulboff.gif";
+				} else {
+					alert("¡El foco ya está apagado!");
+				}
+			}
+
+			function romperFoco(){
+				if(!foco_roto){
+					foco_roto=true;
+					foco_encendido=false;
+					document.getElementById("foco").src = "http://localhost/dwa2021/pic_bulbroken.gif";
+					document.getElementById("encendido").disabled = true;
+					document.getElementById("apagado").disabled = true;
+				} else {
+					alert("¡El foco ya está roto!")
+				}
+			}
+		</script>
+	</body>
+</html>

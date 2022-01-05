@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mvp.css/1.6.3/mvp.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.min.js"></script>
+    <style>
+        body{
+            margin: 50px;
+        }
+    </style>
+    <title>Ejemplo SPA</title>
+</head>
+<body ng-app="simpleSpa">
+    <nav>
+        <ul>
+            <li><a href="#!">Inicio</a></li>
+            <li><a href="#!productos">Productos</a></li>
+            <li><a href="#!estudiantes">Estudiantes</a></li>
+            <li><a href="#!contactos">Contactos</a></li>
+            <li><a href="#!nosotros">Nosotros</a></li>
+        </ul>
+    </nav>
+    <div ng-view></div>
+</body>
+<script>
+    var aplicacion = angular.module('simpleSpa', ['ngRoute']);
+    aplicacion.config(function($routeProvider){
+        $routeProvider
+        .when('/', {
+            templateUrl:'spaVistas/inicio.html',
+            controller:'InicioController'
+        })
+        .when('/productos', {
+            templateUrl:'spaVistas/productos.html',
+            controller:'ProductosController'
+        })
+        .when('/estudiantes', {
+            templateUrl:'spaVistas/estudiantes.html',
+            controller:'EstudiantesController'
+        })
+        .when('/contactos', {
+            templateUrl:'spaVistas/contactos.html',
+            controller:'ContactosController'
+        })
+        .when('/nosotros', {
+            templateUrl:'spaVistas/nosotros.html',
+            controller:'NosotrosController'
+        })
+        .otherwise({redirectTo: '/'});
+    });
+
+    aplicacion.controller('InicioController', function($scope) {
+        $scope.mensaje = "Este es el inicio del SPA.";
+    });
+    aplicacion.controller('ProductosController', function($scope) {
+        $scope.mensaje = "Aquí se verán los productos del SPA.";
+        var aProductos = [
+            {id: 1, descripcion:'Chicle', precio:1000},
+            {id: 2, descripcion:'Caramelo', precio:5000},
+            {id: 3, descripcion:'Verduras', precio:9000},
+            {id: 4, descripcion:'Pan', precio:20000},
+            {id: 5, descripcion:'Leche', precio:10000},
+        ];
+        $scope.listaProductos = aProductos;
+    });
+    aplicacion.controller('EstudiantesController', function($scope, $http) {
+        $scope.mensaje = "Aquí se verán los estudiantes desde la API.";
+        $scope.formulario = false;
+        $scope.modificar = false;
+        $scope.seccion = "Formulario";
+        $scope.accion = "REGISTRAR";
+        $scope.Student = {};
+
+        $scope.asignarDatos = function(datos){
+            const btnAceptar = document.getElementById("btnAceptar");
+
+            btnAceptar.setAttribute("value", "Modificar");
+
+            $scope.Student.StudentId = datos.StudentId;
+            $scope.Student.StudentName = datos.StudentName;
+            $scope.Student.StudentAge = datos.StudentAge;
+            $scope.accion = "MODIFICAR";
+            $scope.modificar = true;
+            $scope.mostrarSecciones();
+            // $http.post("http://localhost:63174/api/Values", JSON.stringify({data: datos})).then(function (response){
+            //     if(response.data){
+            //         console.log("Modificado");
+            //     }
+            // });
+        }
+
+        $scope.enviarModificacion = function (modificar, $http){
+            $http({
+                url:"http://localhost:63174/api/Values",
+                method: 'PUT',
+                data: datos,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).success(function(response){
+                $scope.mostrarSecciones();
+            }).error(function(response){
+                console.log('Ocurrio un error');
+            })
+        };
+
+        $scope.eliminarDatos = function(datos){
+            var eliminar = confirm("Está seguro que quiere eliminar " + datos.StudentName);
+            if(eliminar){
+                console.log("Registro eliminado");
+            } else {
+                console.log("Accon cancelada");
+            }
+        };
+
+        $scope.mostrarSecciones = function(){
+            if ($scope.formulario) {
+                $scope.seccion = "Formulario";
+                $scope.formulario = false;
+            } else {
+                $scope.seccion = "Tabla";
+                $scope.formulario = true;
+            }
+        };
+
+        $http.get("http://localhost:63174/api/Values")
+        .then(function(response){
+            $scope.listaEstudiantes = response.data;
+        });
+    });
+    aplicacion.controller('ContactosController', function($scope) {
+        $scope.mensaje = "Vista Contactos del SPA.";
+    });
+    aplicacion.controller('NosotrosController', function($scope) {
+        $scope.mensaje = "Vista nostros del SPA.";
+    });
+            // var aEstudiantes = [
+        //     {StudentId: 1, StudentName:'Juan', StudentAge:1000},
+        //     {StudentId: 2, StudentName:'Pedro', StudentAge:5000},
+        //     {StudentId: 3, StudentName:'Verduras', StudentAge:9000},
+        //     {StudentId: 4, StudentName:'Pan', StudentAge:20000},
+        //     {StudentId: 5, StudentName:'Leche', StudentAge:10000},
+        // ];
+        // $scope.listaEstudiantes = aEstudiantes;
+        // console.log('Controlador estudiantes cargado');
+
+</script>
+</html>
